@@ -358,14 +358,29 @@ else:
 # Use a while loop to keep asking until the entered name
 # is NOT in accounts. Append the accepted name and print accounts.
 # REQUIREMENT: Use 'not in' in your solution.
-
+accounts = ["admin", "guest"]
+while True:
+    new_account = input("Enter a new account name: ")
+    if new_account not in accounts:
+        accounts.append(new_account)
+        print(accounts)
+        break
+    else:
+        print("Account name already exists. Please try again.")
 
 # TASK 29:
 # Create secret_words = ["dragon", "robot", "python", "galaxy"].
 # Keep asking the user for a word UNTIL it is in secret_words.
 # Count and print the number of guesses made.
 # A correct first guess should count as 1.
-
+secret_words = ["dragon", "robot", "python", "galaxy"]
+guess_count = 0
+while True:
+    guess = input("Guess a secret word: ")
+    guess_count += 1
+    if guess in secret_words:
+        print(f"Correct! Number of guesses: {guess_count}")
+        break
 
 # TASK 30:
 # Create guests = [].
@@ -373,7 +388,15 @@ else:
 # If a name is already in guests, reject it and ask again.
 # Use a while loop, 'in' or 'not in', and append().
 # Print the finished list and its length.
-
+guests = []
+while len(guests) < 5:
+    name = input("Enter a guest name: ")
+    if name not in guests:
+        guests.append(name)
+    else:
+        print("Name already entered. Please enter a unique name.")
+print(guests)
+print(f"Number of guests: {len(guests)}")
 
 # ============================================================
 # SECTION 6 — LISTS + FUNCTIONS (TASKS 31–35)
@@ -384,7 +407,12 @@ else:
 # RETURN how many elements are greater than 0.
 # Do NOT use count().
 # Test: count_positive([-2, 0, 4, 9, -1]) -> 2
-
+def count_positive(numbers):
+    count = 0
+    for num in numbers:
+        if num > 0:
+            count += 1
+    return count
 
 # TASK 32:
 # Create a function named find_item(items, target).
@@ -392,14 +420,23 @@ else:
 # Do NOT use index().
 # Test: find_item(["cat", "dog", "cat"], "cat") -> 0
 # Test: find_item(["cat", "dog"], "fish") -> -1
-
+def find_item(items, target):
+    for index in range(len(items)):
+        if items[index] == target:
+            return index
+    return -1
 
 # TASK 33:
 # Create a function named unique_items(items).
 # RETURN a NEW list without duplicate values, preserving first
 # appearance order. REQUIREMENT: Use 'not in'.
 # Test: unique_items([1, 2, 2, 3, 1, 4]) -> [1, 2, 3, 4]
-
+def unique_items(items):
+    unique_list = []
+    for item in items:
+        if item not in unique_list:
+            unique_list.append(item)
+    return unique_list
 
 # TASK 34:
 # Create a function named common_items(list1, list2).
@@ -407,14 +444,23 @@ else:
 # Include each matching value only once, in list1's order.
 # REQUIREMENT: Use both 'in' and 'not in'.
 # Test: common_items([1, 2, 3, 3], [3, 4, 1]) -> [1, 3]
-
+def common_items(list1, list2):
+    common_list = []
+    for item in list1:
+        if item in list2 and item not in common_list:
+            common_list.append(item)
+    return common_list
 
 # TASK 35:
 # Create a function named reverse_list(items).
 # RETURN a NEW list in reverse order, without changing items.
 # Do NOT use reverse(), reversed(), or [::-1].
 # Test: reverse_list([10, 20, 30]) -> [30, 20, 10]
-
+def reverse_list(items):
+    reversed_list = []
+    for i in range(len(items) - 1, -1, -1):
+        reversed_list.append(items[i])
+    return reversed_list
 
 # ============================================================
 # SECTION 7 — DEBUGGING (TASKS 36–37)
@@ -429,7 +475,10 @@ else:
 #     print(number)
 #
 # Do NOT replace the while loop with a for loop.
-
+number = 1
+while number <= 5:
+    print(number)
+    number += 1  # The original code was missing this increment, causing an infinite loop.
 
 # TASK 37:
 # Fix this code so it removes ALL 4s without skipping any.
@@ -443,7 +492,11 @@ else:
 #
 # Expected: [7, 9]
 # HINT: A while loop and 'in' can help.
-
+values = [4, 4, 7, 4, 9]
+while 4 in values:
+    values.remove(4)
+print(values)
+# The original approach can fail because modifying a list while iterating over it can cause the loop to skip elements, leading to some 4s not being removed.
 
 # ============================================================
 # FINAL BOSS CHALLENGES (TASKS 38–40)
@@ -462,7 +515,55 @@ else:
 # - Use 'in' to prevent duplicates and 'not in' to reject missing items.
 # - Handle an empty list and invalid menu selections.
 # - Keep running until the user chooses Exit.
-
+start = True
+shopping_list = []
+while start:
+    print("\nShopping List Menu:")
+    print("1. Add item")
+    print("2. Remove item")
+    print("3. View numbered items")
+    print("4. Search for item")
+    print("5. Exit")
+    
+    choice = input("Enter your choice (1-5): ")
+    
+    if choice == "1":
+        item = input("Enter an item to add: ")
+        if item not in shopping_list:
+            shopping_list.append(item)
+            print(f"{item} added to the list.")
+        else:
+            print(f"{item} is already in the list.")
+    
+    elif choice == "2":
+        item = input("Enter an item to remove: ")
+        if item in shopping_list:
+            shopping_list.remove(item)
+            print(f"{item} removed from the list.")
+        else:
+            print(f"{item} is not in the list.")
+    
+    elif choice == "3":
+        if shopping_list:
+            print("Shopping List:")
+            for index in range(len(shopping_list)):
+                print(f"{index + 1}. {shopping_list[index]}")
+        else:
+            print("The shopping list is empty.")
+    
+    elif choice == "4":
+        item = input("Enter an item to search for: ")
+        if item in shopping_list:
+            print(f"{item} is in the list.")
+        else:
+            print(f"{item} is not in the list.")
+    
+    elif choice == "5":
+        start = False
+        print("Exiting the program.")
+    
+    else:
+        print("Invalid selection. Please choose a number between 1 and 5.")
 
 # TASK 39 — GRADE ANALYZER:
 # Create a function named analyze_grades(grades).
@@ -474,7 +575,30 @@ else:
 # Test: analyze_grades([95, 82, 67, 74, 58])
 # Expected: [95, 58, 75.2, 3, 2]
 # Test with a single grade and all-negative values too.
-
+def analyze_grades(grades):
+    if not grades:
+        return []
+    
+    highest = grades[0]
+    lowest = grades[0]
+    total = 0
+    passing_count = 0
+    failing_count = 0
+    
+    for grade in grades:
+        if grade > highest:
+            highest = grade
+        if grade < lowest:
+            lowest = grade
+        total += grade
+        if grade >= 70:
+            passing_count += 1
+        else:
+            failing_count += 1
+            
+    average_grade = total / len(grades)
+    
+    return [highest, lowest, average_grade, passing_count, failing_count]
 
 # TASK 40 — STUDENT ATTENDANCE SYSTEM:
 # Start with:
@@ -492,6 +616,52 @@ else:
 # - Create attendance_percentage(present, students) that RETURNS
 #   the percentage; if students is empty, RETURN 0.
 # - Test with all present, all absent, and a mixture.
+
+def attendance_percentage(present, students):
+    if len(students) == 0:
+        return 0
+    return (len(present) / len(students)) * 100
+
+
+students = ["Alex", "Jordan", "Taylor", "Morgan", "Casey"]
+present = []
+absent = []
+recorded = []
+
+for student in students:
+    while True:
+        status = input(f"Is {student} present (P) or absent (A)? ")
+        if status == "P":
+            if student in present or student in absent or student in recorded:
+                print("Attendance already recorded for this student.")
+            else:
+                present.append(student)
+                recorded.append(student)
+                break
+        elif status == "A":
+            if student in present or student in absent or student in recorded:
+                print("Attendance already recorded for this student.")
+            else:
+                absent.append(student)
+                recorded.append(student)
+                break
+        else:
+            print("Invalid input. Please enter P or A.")
+
+print("Present students:")
+for index in range(len(present)):
+    print(f"{index + 1}. {present[index]}")
+
+print("Absent students:")
+for index in range(len(absent)):
+    print(f"{index + 1}. {absent[index]}")
+
+print(f"Number present: {len(present)}")
+print(f"Number absent: {len(absent)}")
+print(f"Attendance percentage: {attendance_percentage(present, students)}%")
+
+if len(present) == len(students):
+    print("Perfect Attendance!")
 
 
 # ============================================================
